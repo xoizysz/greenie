@@ -1,0 +1,8 @@
+langchain
+flask
+python-dotenv
+pinecone[grpc]
+langchain-pinecone
+langchain_community
+langchain_experimental
+langchain_groq
