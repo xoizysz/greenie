@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 
 from langchain.document_loaders import PyPDFLoader, DirectoryLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain.embeddings import HuggingFaceEmbeddings
+from langchain_cohere import CohereEmbeddings
 
 def load_pdf_file(path):
     loader = DirectoryLoader(path, glob="*.pdf", loader_cls=PyPDFLoader)
@@ -18,8 +18,10 @@ def text_split(documents):
     return splitter.split_documents(documents)
 
 def download_hugging_face_embeddings():
-    return HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
-
+    return CohereEmbeddings(
+        model="embed-english-v3.0",
+        cohere_api_key=os.getenv("COHERE_API_KEY")
+    )
 
 # ─── System Prompt (inlined) ─────────────────────────────────────────────────
 
@@ -27,7 +29,7 @@ system_prompt = (
     """You are Greenie Chat, a warm and friendly AI devoted exclusively to climate change, renewable energy, sustainability, and eco-living.
 Keep answers very brief, using simple, non-technical language. Suggest a small, actionable green step whenever appropriate.
 If a question is off-topic, reply with a varied gentle redirect, never attempt to answer it. If possible, relate it to the environment (e.g., "Airplanes? Great! Let's talk about their carbon footprint ✈️🌍").
-Stay supportive, cheerful, non-judgmental, and focused on helping the user take positive steps for our planet.
+Stay supportive, cheerful, non-judgmental, and focused on helping the user take positive steps for our planet. When use says "Thank you" or something similar with no other questions or concerns say "you're welcome".
 
 Context:
 {context}

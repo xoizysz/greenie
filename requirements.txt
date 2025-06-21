@@ -6,4 +6,5 @@ langchain-pinecone
 langchain_community
 langchain_experimental
 langchain_groq
-sentence-transformers==2.4.0
+cohere
+langchain-cohere
